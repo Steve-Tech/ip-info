@@ -78,6 +78,11 @@ return `<!DOCTYPE html>
                 <strong>Some elements on this page require JavaScript!</strong>
             </div>
         </noscript>
+        <div id="time-sync" class="d-none alert alert-warning">
+            <strong>Your clock is <span id="time-difference"></span> out of sync!</strong>
+            This can cause issues with modern security features.
+            <a href="https://mytime.stevetech.au" target="_blank" rel="noopener">Verify your time here.</a>
+        </div>
         <div class="row">
             <div class="col-md-6 d-flex flex-column">
                 <div class="card h-100 mt-4">
@@ -149,6 +154,7 @@ return `<!DOCTYPE html>
             return info;
         }
         const requestIP = document.getElementById('connecting-ip').textContent;
+        // Get IPv4
         fetch('https://1.1.1.1/cdn-cgi/trace')
             .then(response => response.text())
             .then(data => parseCDNTrace(data))
@@ -160,6 +166,7 @@ return `<!DOCTYPE html>
             }).catch(() => {
                 document.getElementById('ipv4').textContent = 'N/A';
             });
+        // Get IPv6
         fetch('https://[2606:4700:4700::1111]/cdn-cgi/trace')
             .then(response => response.text())
             .then(data => parseCDNTrace(data))
@@ -179,6 +186,36 @@ return `<!DOCTYPE html>
             }).catch(() => {
                 document.getElementById('ipv6').textContent = 'N/A';
             });
+        // Check SNI and Time
+        // The Workers API doesn't expose SNI info?
+        fetch('/cdn-cgi/trace')
+            .then(response => response.text())
+            .then(data => parseCDNTrace(data))
+            .then(info => {
+                if (info['sni'] === "encrypted") {
+                    document.getElementById('protocol').parentElement.innerHTML += ' with <abbr title="Encrypted Client Hello">ECH</abbr>';
+                }
+                if (info['ts']) {
+                    const serverTime = new Date(parseInt(info['ts']) * 1000);
+                    const localTime = new Date();
+                    const timeDiff = Math.abs(localTime - serverTime) / 1000; // in seconds
+                    if (timeDiff > 15) {
+                        const timeDiffMinutes = Math.floor(timeDiff / 60);
+                        const timeDiffSeconds = Math.floor(timeDiff % 60);
+                        let displayDiff = '';
+                        if (timeDiffMinutes > 0) {
+                            displayDiff += timeDiffMinutes + ' minute' + (timeDiffMinutes > 1 ? 's' : '');
+                        }
+                        if (timeDiffSeconds > 0) {
+                            if (displayDiff.length > 0) displayDiff += ' and ';
+                            displayDiff += timeDiffSeconds + ' second' + (timeDiffSeconds > 1 ? 's' : '');
+                        }
+                        document.getElementById('time-difference').textContent = displayDiff;
+                        document.getElementById('time-sync').classList.remove('d-none');
+                    }
+
+                }
+            }).catch(() => {});
         const map = L.map('map', {minZoom: 0, maxZoom: 8}).setView([${info.latitude}, ${info.longitude}], 7);
         L.marker([${info.latitude}, ${info.longitude}]).addTo(map);
         protomapsL.leafletLayer({url:'https://platform.dash.cloudflare.com/map-tiles/planet_z7/{z}/{x}/{y}.mvt', flavor: darkMode ? 'black' : 'white', lang: 'en'}).addTo(map);

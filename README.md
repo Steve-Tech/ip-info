@@ -16,4 +16,4 @@ Everything is kept on Cloudflare's network. No data is kept beyond what Cloudfla
 
 ## JSON API
 
-A JSON API is available at `/json` which returns some extra information in addition to that shown on the webpage. The site will also respond with JSON if the `Accept: application/json` header is sent with the request.
+A JSON API is available at `/json` which returns some extra information in addition to that shown on the webpage, although it cannot show browser-detected IPv4/IPv6 addresses. The site will also respond with JSON if the `Accept: application/json` header is sent with the request.
