@@ -12,11 +12,15 @@
 	},
 	"routes": [
 		{
-			"pattern": "ip.stevetech.me",
+			"pattern": "ip.stevetech.au",
 			"custom_domain": true
 		}
 	],
-	"workers_dev": true
+	"workers_dev": true,
+	"assets": {
+		"directory": "./assets",
+		"binding": "ASSETS"
+	}
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

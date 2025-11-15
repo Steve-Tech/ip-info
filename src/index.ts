@@ -60,10 +60,12 @@ return `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Info</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.8/cosmo/bootstrap.min.css" integrity="sha512-ZtH2WUkjnGtgiEQaq0c5Xht1VXlvGauf7mc1sEF6gi64bJAIfwyP+Jjh2AQppTVaA13EBZhrrnGckbVewXC5yQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script type="text/javascript" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/protomaps-leaflet@5.0.0/dist/protomaps-leaflet.js"></script>
+    <!-- Cloudflare will rewrite the fonts automatically -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap.min.css"/>
+    <link rel="stylesheet" href="leaflet.css"/>
+    <script src="leaflet.js"></script>
+    <script src="protomaps-leaflet.js"></script>
     <script>
         const darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (darkMode)
@@ -217,7 +219,8 @@ return `<!DOCTYPE html>
                 }
             }).catch(() => {});
         const map = L.map('map', {minZoom: 0, maxZoom: 8}).setView([${info.latitude}, ${info.longitude}], 7);
-        L.marker([${info.latitude}, ${info.longitude}]).addTo(map);
+        const markerIcon = L.icon({iconUrl: "marker-icon.svg", iconSize: [25, 41], iconAnchor: [12, 41]});
+        L.marker([${info.latitude}, ${info.longitude}], {icon: markerIcon}).addTo(map);
         protomapsL.leafletLayer({url:'https://platform.dash.cloudflare.com/map-tiles/planet_z7/{z}/{x}/{y}.mvt', flavor: darkMode ? 'black' : 'white', lang: 'en'}).addTo(map);
     </script>
 </body>
