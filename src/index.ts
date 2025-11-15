@@ -60,8 +60,6 @@ return `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Info</title>
-    <!-- Cloudflare will rewrite the fonts automatically -->
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="bootstrap.min.css"/>
     <link rel="stylesheet" href="leaflet.css"/>
     <script src="leaflet.js"></script>

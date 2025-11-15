@@ -11,7 +11,6 @@ Everything is kept on Cloudflare's network. No data is kept beyond what Cloudfla
 ### Dependencies
 
 * All assets (CSS, JS) are served from the Worker's Assets.
-* The Google Fonts request is automatically rewritten by Cloudflare to serve from their edge network.
 * Cloudflare's [1.1.1.1/cdn-cgi/trace](https://1.1.1.1/cdn-cgi/trace) is used for IPv4 and IPv6 discovery.
 * Undocumented Cloudflare map tiles are used for the map display, (same tiles used by [speed.cloudflare.com](https://speed.cloudflare.com/)).
 * IP information is provided by Cloudflare's Workers API ([IncomingRequestCfProperties](https://developers.cloudflare.com/workers/runtime-apis/request/#incomingrequestcfproperties)).
