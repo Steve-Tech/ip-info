@@ -86,7 +86,10 @@ return `<!DOCTYPE html>
         <div class="row">
             <div class="col-md-6 d-flex flex-column">
                 <div class="card h-100 mt-4">
-                    <div class="card-header"><h5 class="text-center mb-0">IPv4</h5></div>
+                    <div class="card-header d-flex justify-content-center align-items-center">
+                        <h5 class="d-inline text-center mb-0">IPv4</h5>
+                        <span id="warp4" class="ms-2 badge rounded-pill bg-info d-none">WARP</span>
+                    </div>
                     <div class="card-body">
                         <p class="card-text text-center fs-1"><code id="ipv4">${info.ip?.includes('.') ? info.ip : 'Loading...'}</code></p>
                         <div id="ipv4-different" class="d-none alert alert-warning">
@@ -96,7 +99,10 @@ return `<!DOCTYPE html>
                     </div>
                 </div>
                 <div class="card h-100 mt-4">
-                    <div class="card-header"><h5 class="text-center mb-0">IPv6</h5></div>
+                    <div class="card-header d-flex justify-content-center align-items-center">
+                        <h5 class="d-inline text-center mb-0">IPv6</h5>
+                        <span id="warp6" class="ms-2 badge rounded-pill bg-info d-none">WARP</span>
+                    </div>
                     <div class="card-body">
                         <p class="card-text text-center fs-3"><code id="ipv6">${info.ip?.includes(':') ? info.ip : 'Loading...'}</code></p>
                         <div id="ipv6-preferred" class="d-none alert alert-success">
@@ -163,6 +169,11 @@ return `<!DOCTYPE html>
                 if (requestIP.includes('.') && requestIP !== info['ip']) {
                     document.getElementById('ipv4-different').classList.remove('d-none');
                 }
+                if (info['warp'] && info['warp'] !== "off") {
+                    if (info['warp'] === "plus")
+                        document.getElementById('warp4').textContent = 'WARP+';
+                    document.getElementById('warp4').classList.remove('d-none');
+                }
             }).catch(() => {
                 let elem4 = document.getElementById('ipv4');
                 if (elem4.textContent === 'Loading...')
@@ -184,6 +195,11 @@ return `<!DOCTYPE html>
                     if (requestIP.includes(':')) {
                         document.getElementById('ipv6-preferred').classList.remove('d-none');
                     }
+                }
+                if (info['warp'] && info['warp'] !== "off") {
+                    if (info['warp'] === "plus")
+                        document.getElementById('warp6').textContent = 'WARP+';
+                    document.getElementById('warp6').classList.remove('d-none');
                 }
             }).catch(() => {
                 let elem6 = document.getElementById('ipv6');
@@ -217,7 +233,6 @@ return `<!DOCTYPE html>
                         document.getElementById('time-difference').textContent = displayDiff;
                         document.getElementById('time-sync').classList.remove('d-none');
                     }
-
                 }
             }).catch(() => {});
         const map = L.map('map', {minZoom: 0, maxZoom: 8}).setView([${info.latitude}, ${info.longitude}], 7);
