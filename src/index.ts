@@ -154,8 +154,8 @@ return `<!DOCTYPE html>
             return info;
         }
         const requestIP = document.getElementById('connecting-ip').textContent;
-        // Get IPv4
-        fetch('https://1.1.1.1/cdn-cgi/trace')
+        // Get IPv4 (EasyPrivacy will block 1.1.1.1)
+        fetch('https://1.0.0.1/cdn-cgi/trace')
             .then(response => response.text())
             .then(data => parseCDNTrace(data))
             .then(info => {
@@ -164,10 +164,12 @@ return `<!DOCTYPE html>
                     document.getElementById('ipv4-different').classList.remove('d-none');
                 }
             }).catch(() => {
-                document.getElementById('ipv4').textContent = 'N/A';
+                let elem4 = document.getElementById('ipv4');
+                if (elem4.textContent === 'Loading...')
+                    elem4.textContent = 'N/A';
             });
         // Get IPv6
-        fetch('https://[2606:4700:4700::1111]/cdn-cgi/trace')
+        fetch('https://[2606:4700:4700::1001]/cdn-cgi/trace')
             .then(response => response.text())
             .then(data => parseCDNTrace(data))
             .then(info => {
@@ -184,7 +186,9 @@ return `<!DOCTYPE html>
                     }
                 }
             }).catch(() => {
-                document.getElementById('ipv6').textContent = 'N/A';
+                let elem6 = document.getElementById('ipv6');
+                if (elem6.textContent === 'Loading...')
+                    elem6.textContent = 'N/A';
             });
         // Check SNI and Time
         // The Workers API doesn't expose SNI info?
