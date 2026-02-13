@@ -40,6 +40,7 @@ export default {
             'region': request?.cf?.region,
             'regionCode': request?.cf?.regionCode,
             'timezone': request?.cf?.timezone,
+            'requestHeaders': Array.from(request.headers.entries()),
         }
         if (url.pathname === '/json' || request.headers.get('Accept') === 'application/json') {
             return new Response(JSON.stringify(info, null, 2), {
