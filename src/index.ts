@@ -73,7 +73,7 @@ return `<!DOCTYPE html>
 </head>
 <body>
     <main class="container my-4">
-        <h1 class="text-center">Your IP</h1>
+        <h1 class="text-center">${info.ip?.includes(':') ? 'IPv6 Works!' : 'Your IP'}</h1>
         <noscript>
             <div class="alert alert-danger">
                 <strong>Some elements on this page require JavaScript!</strong>
