@@ -162,7 +162,7 @@ return `<!DOCTYPE html>
         }
         const requestIP = document.getElementById('connecting-ip').textContent;
         // Get IPv4 (EasyPrivacy will block 1.1.1.1)
-        fetch('https://1.0.0.1/cdn-cgi/trace')
+        fetch('https://ipv4.icanhazip.com/cdn-cgi/trace')
             .then(response => response.text())
             .then(data => parseCDNTrace(data))
             .then(info => {
@@ -181,7 +181,7 @@ return `<!DOCTYPE html>
                     elem4.textContent = 'N/A';
             });
         // Get IPv6
-        fetch('https://[2606:4700:4700::1001]/cdn-cgi/trace')
+        fetch('https://ipv6.icanhazip.com/cdn-cgi/trace')
             .then(response => response.text())
             .then(data => parseCDNTrace(data))
             .then(info => {
